@@ -1,0 +1,16 @@
+The createClass factory
+Looking at the React documentation (at the time of writing), the first example we find shows us how to define components using React.createClass.
+Let's start with a very simple snippet:
+   const Button = React.createClass({
+     render() {
+       return <button />
+     },
+})
+With the code above we created a button, and we can reference it inside other components in our application.
+We can change the snippet to use plain JavaScript as follows:
+   const Button = React.createClass({
+     render() {
+       return React.createElement('button')
+     },
+})
+We can run the code everywhere without needing to use Babel for transpiling, which is a good way to start with React, avoiding the effort of learning different tools in the React ecosystem.
