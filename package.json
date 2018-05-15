@@ -1,0 +1,23 @@
+{
+  "name": "gotrans",
+  "version": "1.0.0",
+  "description": "Translation Tool: trying to translate a English book to Chinese version",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gavin103/gotrans.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gavin103/gotrans/issues"
+  },
+  "homepage": "https://github.com/gavin103/gotrans#readme",
+  "dependencies": {
+    "puppeteer": "^1.4.0"
+  }
+}
