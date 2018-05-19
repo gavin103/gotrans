@@ -1,0 +1,16 @@
+ Looking at the React documentation (at the time of writing), the first example we find shows us how to define components using React.createClass.
+查看React文档（撰写本文时），我们发现的第一个示例向我们展示了如何使用React.createClass定义组件。
+ Let's start with a very simple snippet:
+让我们从一个非常简单的代码片段开始：
+ const Button = React.createClass({
+const Button = React.createClass（{
+ render() {
+render（）{
+ return <button />
+返回<button />
+ },
+}，
+ })
+}）
+ We can run the code everywhere without needing to use Babel for transpiling, which is a good way to start with React, avoiding the effort of learning different tools in the React ecosystem.
+我们可以在任何地方运行代码，而无需使用Babel进行转译，这是从React开始的一种好方法，避免了在React生态系统中学习不同工具的努力。
