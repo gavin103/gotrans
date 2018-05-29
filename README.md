@@ -17,72 +17,6 @@
  ### 尝试三：
  祭出大招，使用无头浏览器，模拟人工翻译过程，啥过程？英文输入->翻译->将中文输入拷贝到指定文档😝。
  
- ## Show Me the CODE！
-```
-const puppeteer = require('puppeteer');
-const path = require('path');
-const fs = require('fs');
-const util = require('util');
-
-const appendFile = util.promisify(fs.appendFile);
-
-const CONFIG = {
-    input: 'React/ch09.txt',
-    out:'out.txt',
-    url: 'https://translate.google.cn/#en/zh-CN/'
-};
-
-const inputPath = path.join(__dirname,CONFIG.input);
-const outPath = path.join(__dirname,CONFIG.out);
-
-const trans = async ()=>{
-    try {
-        //打开浏览器，进入谷歌翻译网页
-        const browser = await puppeteer.launch({headless: false});
-        const page = await browser.newPage();
-        await page.goto(CONFIG.url);
-
-        fs.writeFileSync(outPath,'');
-        //读取文档
-        let fr = fs.readFileSync(inputPath,"utf-8");
-        let tmpArr = [];
-        fr.split('\n').forEach((line,index)=>{
-            let tmp = line.trim();
-            tmp.length > 0 && tmpArr.push(' '+tmp)
-        });
-
-        for(let i=0; i<tmpArr.length; i++){
-            let tmpInput = tmpArr[i];
-            await page.type('#source', tmpInput,{delay: 10});
-            page.click('#src-translit');
-            await page.waitFor(1500);
-            let transOutput = await page.evaluate(() => {
-                let text='';
-                if(document.querySelector('#result_box span')){
-                    [...document.querySelectorAll('#result_box span')].forEach((nod)=>{
-                        text+=nod.innerText;
-                    })
-                }
-                return text;
-            });
-            console.log(i,tmpInput);
-            await appendFile(outPath,tmpInput+'\n');
-            await appendFile(outPath,transOutput+'\n');
-            await page.waitFor(500);
-            page.click('#gt-clear');
-        }
-        await page.waitFor(1000);
-        browser.close();
-    }catch (e) {
-        console.log(e);
-    }
-
-};
-
-trans();
-
-```
- 
  ## 娓娓道来
  - 无头浏览器选用的是puppeteer，因为想接触一下这个PhantomJS的继承者。
  - 作为脚本运行在node环境中，当然充分利用Node的原生API了（fs,util,path）。
@@ -97,5 +31,11 @@ trans();
     - page.waitFor 等待，为什么要等待？JS单线程，你懂得，慢，拖拉机一样慢！
     - browser.close 关闭浏览器，点击红叉退出。
     - 最重要的就是page.evaluate了，通过回调函数，轻松操作返回页面的dom。
-    
+   
+大家可以使用node app.js命令运行脚本。查看翻译结果。
+
+为了保障翻译的准确性，就需要提供完整的上下文语境，所以脚本是整段翻译的。
+
+后续将持续更新，欢迎提出意见。
+
 > 大概就这些，欢迎各位过路大神拍砖。
